@@ -1,4 +1,4 @@
-import Chart from './Chart';
+//import Chart from './Chart';
 
 export default class PollResult extends React.Component {
     constructor() {

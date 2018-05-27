@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const flash = require('connect-flash');
 const User = require('./models/user');
 const UserSession = require('./models/UserSession');
 let db = mongoose.connection;
@@ -18,12 +19,12 @@ app.use(express.json());
 app.use(express.static('dist'));
 
 app.get('/polls', (req, res) => {
-   db.collection('polls').find({}, function(err, response){
-       if (err) {
-           res.json({message: 'Unable to search database'});
-       }
+  db.collection('polls').find({}, function(err, response){
+      if (err) {
+          res.json({message: 'Unable to search database'});
+      }
     return response.toArray();
-   })
+  })
   .then(pollsParsed => {res.json({polls: pollsParsed, }); });
 });
 
@@ -105,56 +106,90 @@ app.post('/signup', (req, res, next) => {
 });
 
 app.post('/login', (req, res, next) => {
-   const { body } = req;
-   const { password } = body;
-   let { userName } = body;
+  const { body } = req;
+  const { password } = body;
+  let { userName } = body;
   if (!userName || !password) {
       return res.json({
           success: false,
           message: "Username and password are required"
       });
   }
-  UserSession.findOne({'username': userName}, (err, sessionFound) => {
+  userName = userName.trim().toLocaleLowerCase();
+  console.log('here')
+  User.find({'username': userName}, (err, users) => {
+      err && res.json({success: false, message: 'Error: Invalid Query to Database'});
+      users && res.json({users: users});
+    //   res.json({users});
+  });
+  User.find({
+      'username': userName
+  }, (err, users) => {
+      console.log('error');
       if (err) {
           console.log(err);
-      } else if (sessionFound != null) {
-          res.json({message: "User allready logged in"});
-      } else {
-          userName = userName.trim().toLocaleLowerCase();
-          User.findOne({'username': userName}, (err, user) => {
-              err && res.json({success: false, message: 'Error: Invalid Query to Database'});
-              if (!user) {
-                  res.json({success:false, message: 'User does not exist'});
-              } else if (!user.validPassword(password, user.password)) {
-                  res.json({success: false, message: 'Password incorrect'}); 
-              } else {
-                  const userSession = new UserSession();
-                  userSession.username = userName;
-                  userSession.save((err, session) => {
-                    err ? res.json({success: false, message: 'Unable to log on'}) : res.json({success: true, username:user.username,
-                    password: user.password, name: user.name, token: session._id}); 
-                  });
-                      }
+          res.json({
+              success: false,
+              message: 'Error: Invalid query to database'
           });
       }
-  })
-  
+      const user = users[0];
+      if (!user.validPassword(password)) {
+          return res.json({
+              success: false,
+              message: 'Password incorrect'
+          });
+      } else {
+                    console.log('invalid password')
+
+          const userSession = new UserSession();
+          userSession.username = userName;
+          userSession.save((err, doc) => {
+            //   if (err) {
+            //       console.log(err);
+            //       return res.json({
+            //           success: false,
+            //           message: 'Unable to log on'
+            //       });
+            //   } else {
+
+            //       return res.json({
+            //           success: true,
+            //           message: 'Log in succeded',
+            //           token: doc._id
+            //       });
+            //   }
+          });
+      }
+  });
+   
 });
 
-app.get('/logout', (req, res) => {
-   const username = req.query.username;
-   console.log('username is ' + username)
-   UserSession.remove({username: username}, (err, sessions) => {
-       if (err) {
-           console.log(err);
-           return res.json({message: 'Error: Server error'});
-       } else {
-           return res.json({
-               success: true,
-               message: 'User logged out sucessfully'
-           });
-       }
-   });
+app.get('./logout', (req, res) => {
+  const { query } = req;
+  const { token } = query;
+   
+  UserSession.findOneAndUpdate({
+      _id: token,
+      isDeleted: false
+  }, {
+      $set: {
+          isDeleted: true
+      }
+  }, null, (err, sessions) => {
+      if (err) {
+          console.log(err);
+          return res.json({
+              success: false,
+              message: 'Error: Server error'
+          });
+      } else {
+          return res.json({
+              success: true,
+              message: 'User logged out sucessfully'
+          });
+      }
+  });
 });
 
 app.get('*', (req, res) => {

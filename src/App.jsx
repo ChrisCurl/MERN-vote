@@ -7,8 +7,8 @@
 // https://github.com/AndreiCalazans/voting-app/tree/master/app/components
 
 // react routing video  https://www.youtube.com/watch?v=3B588JwyT18 https://reacttraining.com/react-router/web/api/Route/route-props
+// auth https://medium.com/@Keithweaver_/building-a-log-in-system-for-a-mern-stack-39411e9513bd
 
-// authentication https://forum.freecodecamp.org/t/add-authentication-for-react-app/76002
 const Router = window.ReactRouterDOM.BrowserRouter;
 const Route =  window.ReactRouterDOM.Route;
 const Link =  window.ReactRouterDOM.Link;
@@ -21,6 +21,9 @@ import MainBlock from './MainBlock.jsx';
 import NewPoll from './NewPoll.jsx';
 import PollResult from './PollResult.jsx';
 import PageNotFound from './PageNotFound';
+import SignUp from './Sign-up';
+import Login from './Log-in';
+import Logout  from './Logout';
 // new stuff
 
 
@@ -29,13 +32,33 @@ class MainApp extends React.Component {
   constructor(){
         super()
         this.state = {
-            polls: [],
+          polls: [],
+          signInName: '',
+          signInUsername: '',
+          signInPassword: '',
+          token: '',
+          userIsLoggedIn: false
         }
         this.loadData = this.loadData.bind(this);
-    }
+        this.setSignInInfo = this.setSignInInfo.bind(this);
+        this.setInStorage = this.setInStorage.bind(this);
+        this.removeFromStorage = this.removeFromStorage.bind(this);
+  }
 
   componentDidMount() {
     this.loadData();
+    const obj = this.getFromStorage('MERN_Vote');
+    this.getFromStorage('MERN_Vote') && this.setState({signInName: obj.name, signInUsername: obj.username, signInPassword: obj.password, token: obj.token, userIsLoggedIn: true});
+    // const obj = this.getFromStorage('MERN_Vote');
+    // if (obj) {
+    //   this.setState({
+    //       signInName: obj.name,
+    //       signInUsername: obj.username,
+    //       signInPassword: obj.password,
+    //       token: obj.token,
+    //       userIsLoggedIn: true
+    //   });
+    // }
   }
   
   loadData() {
@@ -49,6 +72,42 @@ class MainApp extends React.Component {
 
     }
     
+  getFromStorage(appName) {
+    try {
+      const values = localStorage.getItem(appName);
+      if (values) {
+        return JSON.parse(values);
+      }
+    } catch (err) {
+      return null;
+    }
+  }
+  
+  setInStorage(tokenName, tokenObj) {
+    if (!tokenObj) {
+      console.error('Token is missing');
+    }
+    try {
+      localStorage.setItem(tokenName, JSON.stringify(tokenObj));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  
+  removeFromStorage(tokenName) {
+    localStorage.removeItem(tokenName);
+  }
+    
+  setSignInInfo(name, username, password, token, userIsLoggedIn) {
+    this.setState({
+      signInName: name,
+      signInUsername: username,
+      signInPassword: password,
+      token: token,
+      userIsLoggedIn: userIsLoggedIn
+    });
+  }
+    
   render() {
     return (
         <Router>
@@ -57,9 +116,12 @@ class MainApp extends React.Component {
               <Route exact path = '/' render = {(props) => <MainBlock {...props} polls = {this.state.polls} />} />
               <Route path = '/pollFound/:pollId' render = {(props) => <PollResult {...props} polls = {this.state.polls} loadData = {this.loadData} /> } />
               <Route path = '/newPoll' render = {(props) => <NewPoll {...props} loadData = {this.loadData} /> }/>
+              <Route path = '/sign-up' component = {SignUp}/>
+              <Route path = '/log-in' render = {(props) => <Login {...props} setSignInInfo = {this.setSignInInfo} setInStorage = {this.setInStorage} />} />
+              <Route path = '/log-out' render = {(props) => <Logout {...props} getFromStorage = {this.getFromStorage} setSignInInfo = {this.setSignInInfo} removeFromStorage = {this.removeFromStorage} />}/>
               <Route component = {PageNotFound} />
             </Switch>
-            <Route component = {Navbar} />
+            <Route render = {(props) => <Navbar {...props} signInName = {this.state.signInName} userIsLoggedIn = {this.state.userIsLoggedIn} />} />
           </div>
       </Router>
       )
