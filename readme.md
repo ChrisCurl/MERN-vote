@@ -1,7 +1,9 @@
 This is a MERN based voting application.
 
-1. TO Do
-3. remove react cdn before production
-4. Polish front end
-5. Sumbit to real devs for review.
-6. Final submission
+ TO Do
+ finish user stories
+ secure authentication for new poll and editing polls
+ remove react cdn before production
+ Polish front end
+ Sumbit to real devs for review.
+ Final submission
