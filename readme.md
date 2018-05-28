@@ -1,6 +1,6 @@
 This is a MERN based voting application.
 
- TO Do
+ To-do list...
  
  finish user stories
  
