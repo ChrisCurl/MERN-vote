@@ -1,6 +1,6 @@
 
-=======
-This is a MERN based voting application.
+
+ #H1 Welcome to MERN Vote.
 
 **Basic Outline**:
 Hello and welcome to MERN Vote. This app was created as a part of the Back End Development Certificate for freecodecamp.org. As the name implies, this app was written using MongoDB, Express, React and Node. Functionally this app is a working example of CRUD functionality. 
@@ -15,3 +15,5 @@ In designing MERN Vote, I have given special attention to security and I have tr
 
 **Special Thanks**:
 	Thanks to my mentor and friend [Daniel](http://bostwick.github.io/) for your advice and guidance on this project.
+	
+![preview](Capture.png)
