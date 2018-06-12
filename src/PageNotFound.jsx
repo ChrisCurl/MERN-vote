@@ -1,8 +1,14 @@
 const PageNotFound = () => {
     return (
-        <div>
-        Page not found
-        <a href = '/'>Return Home</a>
+        <div className = {'notFoundBackground'}>
+            <div className = {'notFoundMessage'}>
+                <p>
+                    Page not found
+                </p>
+                <p>
+                    <a href = '/'>Return Home</a>
+                </p>
+            </div>
         </div>
         )
 }

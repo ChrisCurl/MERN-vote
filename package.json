@@ -33,6 +33,7 @@
     "webpack-cli": "^2.1.2"
   },
   "dependencies": {
+    "babel-preset-stage-2": "^6.24.1",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
     "chart.js": "^2.7.2",

@@ -10,7 +10,11 @@ module.exports = {
           {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            use: ['babel-loader']
+           // use: ['babel-loader']
+           loader: 'babel-loader',
+           query: {
+            presets: ['es2015', 'react','stage-2']
+           }
           }
         ]
       },
@@ -24,7 +28,10 @@ module.exports = {
   plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
-        })
+        }),
+        new webpack.ProvidePlugin({
+            "React": "react",
+        }),
     ],
  
 };

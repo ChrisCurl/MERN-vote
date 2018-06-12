@@ -1,20 +1,6 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import {Route, Switch, Link, BrowserRouter as Router } from 'react-router-dom';
-// removed cdn links from index.html and import here before production push
-
-// https://github.com/jaredhanson/passport-facebook#readme
-// https://github.com/AndreiCalazans/voting-app/tree/master/app/components
-
-// react routing video  https://www.youtube.com/watch?v=3B588JwyT18 https://reacttraining.com/react-router/web/api/Route/route-props
-// auth https://medium.com/@Keithweaver_/building-a-log-in-system-for-a-mern-stack-39411e9513bd
-
-const Router = window.ReactRouterDOM.BrowserRouter;
-const Route =  window.ReactRouterDOM.Route;
-const Link =  window.ReactRouterDOM.Link;
-const Prompt =  window.ReactRouterDOM.Prompt;
-const Switch = window.ReactRouterDOM.Switch;
-const Redirect = window.ReactRouterDOM.Redirect;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Route, Switch, Link, Redirect, BrowserRouter as Router } from 'react-router-dom';
 
 import Navbar from './Navbar.jsx';
 import MainBlock from './MainBlock.jsx';
@@ -22,9 +8,8 @@ import NewPoll from './NewPoll.jsx';
 import PollResult from './PollResult.jsx';
 import PageNotFound from './PageNotFound';
 import SignUp from './Sign-up';
-import Login from './Log-in';
+import Login from './Login';
 import Logout  from './Logout';
-// new stuff
 
 
 class MainApp extends React.Component {
@@ -37,42 +22,53 @@ class MainApp extends React.Component {
           signInUsername: '',
           signInPassword: '',
           token: '',
-          userIsLoggedIn: false
+          userIsLoggedIn: false,
+          showAbout: false
         }
         this.loadData = this.loadData.bind(this);
         this.setSignInInfo = this.setSignInInfo.bind(this);
         this.setInStorage = this.setInStorage.bind(this);
         this.removeFromStorage = this.removeFromStorage.bind(this);
+        this.showAbout = this.showAbout.bind(this);
   }
 
   componentDidMount() {
+    // get polls from server
     this.loadData();
-    const obj = this.getFromStorage('MERN_Vote');
-    this.getFromStorage('MERN_Vote') && this.setState({signInName: obj.name, signInUsername: obj.username, signInPassword: obj.password, token: obj.token, userIsLoggedIn: true});
-    // const obj = this.getFromStorage('MERN_Vote');
-    // if (obj) {
-    //   this.setState({
-    //       signInName: obj.name,
-    //       signInUsername: obj.username,
-    //       signInPassword: obj.password,
-    //       token: obj.token,
-    //       userIsLoggedIn: true
-    //   });
-    // }
+    // check user local storage for log in information
+    this.validateSession();
   }
   
   loadData() {
         fetch('/polls').then(response => 
-             response.json()).then(data => {
-                 let tempPolls = [];
-                 data.polls.forEach(item => tempPolls.push(item));
+            response.json()).then(data => {
+                let tempPolls = [];
+                data.polls.forEach(item => tempPolls.push(item));
                     console.log(`Got ${data.polls.length} polls from the server`);
                     this.setState({polls: tempPolls});
-             })
+            })
 
     }
     
+  validateSession() {
+    //get info from local storage and validate session token on server
+    const obj = this.getFromStorage('MERN_Vote');
+    if (obj) {
+      fetch(`/sessionCheck?token=${obj.token}`)
+      .then(res => res.json())
+      .then(json => {
+        if (json.sessionIsValid) {
+            this.setState({signInName: obj.name, signInUsername: obj.username, signInPassword: obj.password, token: obj.token, userIsLoggedIn: true});
+        } else {
+          this.removeFromStorage('MERN_Vote');
+          console.log('Session expired: Please log in again')
+        }
+      })
+    }
+  }
+    
   getFromStorage(appName) {
+    //get session from local storage
     try {
       const values = localStorage.getItem(appName);
       if (values) {
@@ -84,6 +80,7 @@ class MainApp extends React.Component {
   }
   
   setInStorage(tokenName, tokenObj) {
+    //save user data to local storage
     if (!tokenObj) {
       console.error('Token is missing');
     }
@@ -95,10 +92,12 @@ class MainApp extends React.Component {
   }
   
   removeFromStorage(tokenName) {
+    //executed when user logs out
     localStorage.removeItem(tokenName);
   }
     
   setSignInInfo(name, username, password, token, userIsLoggedIn) {
+    // Once user is validated, info is passed down to child components for various app functions.
     this.setState({
       signInName: name,
       signInUsername: username,
@@ -107,21 +106,26 @@ class MainApp extends React.Component {
       userIsLoggedIn: userIsLoggedIn
     });
   }
+  
+  showAbout() {
+    this.setState({showAbout: !this.state.showAbout})
+  }
     
   render() {
     return (
         <Router>
           <div>
             <Switch>
-              <Route exact path = '/' render = {(props) => <MainBlock {...props} polls = {this.state.polls} />} />
-              <Route path = '/pollFound/:pollId' render = {(props) => <PollResult {...props} polls = {this.state.polls} loadData = {this.loadData} /> } />
-              <Route path = '/newPoll' render = {(props) => <NewPoll {...props} loadData = {this.loadData} /> }/>
+              <Route exact path = '/' render = {(props) => <MainBlock {...props} polls = {this.state.polls} username = {this.state.signInUsername} userIsLoggedIn = {this.state.userIsLoggedIn} showAboutFunc = {this.showAbout} showAboutState = {this.state.showAbout} />} />
+              <Route path = '/pollFound' render = {(props) => <PollResult {...props} token = {this.state.token} polls = {this.state.polls}
+              username = {this.state.signInUsername} loadData = {this.loadData} userIsLoggedIn = {this.state.userIsLoggedIn} showAboutFunc = {this.showAbout} /> } />
+              <Route path = '/newPoll' render = {(props) => <NewPoll {...props}  loadData = {this.loadData} username = {this.state.signInUsername} token = {this.state.token} />}  />
               <Route path = '/sign-up' component = {SignUp}/>
               <Route path = '/log-in' render = {(props) => <Login {...props} setSignInInfo = {this.setSignInInfo} setInStorage = {this.setInStorage} />} />
               <Route path = '/log-out' render = {(props) => <Logout {...props} getFromStorage = {this.getFromStorage} setSignInInfo = {this.setSignInInfo} removeFromStorage = {this.removeFromStorage} />}/>
               <Route component = {PageNotFound} />
             </Switch>
-            <Route render = {(props) => <Navbar {...props} signInName = {this.state.signInName} userIsLoggedIn = {this.state.userIsLoggedIn} />} />
+            <Route render = {(props) => <Navbar {...props} signInName = {this.state.signInName} userIsLoggedIn = {this.state.userIsLoggedIn} showAboutFunc = {this.showAbout} showAboutState = {this.state.showAbout} />} />
           </div>
       </Router>
       )

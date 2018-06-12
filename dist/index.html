@@ -3,25 +3,62 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts -->
+  
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Josefin+Slab:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Yanone+Kaffeesatz" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  
+  <!-- Font Awesome Icon -->
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  
+   <!-- Our CSS -->
+
   <link rel = 'stylesheet' href = 'style.css' />
+  
   <title>FCC Voting Application</title>
+  
 </head>
+
 <body>
-  <div id="app"></div><!-- this is where our component will appear -->
+  
+  <div id="app">
+    
+    <!-- this is where our component will appear -->
+    
+  </div>
+  
+  <!-- Twitter Button style --> 
+  
+  <script> window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
 
-  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+
+  <!-- React CDN -->
+
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   
-  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <!-- Main JS -->
   
-  <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+  <script src = 'bundle.js'></script>
   
-  <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.js"></script>
-  
-  <script src ="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-  
-  <script src = 'bundle.js'>
-     
-  </script>
 </body>
-
 </html>

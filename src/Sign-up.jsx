@@ -1,5 +1,5 @@
-const Redirect = window.ReactRouterDOM.Redirect;
-const Link =  window.ReactRouterDOM.Link;
+import {Redirect, Link } from 'react-router-dom';
+
 
 
 export default class SignUp extends React.Component {
@@ -85,18 +85,19 @@ export default class SignUp extends React.Component {
         if (duplicateUser) {
             return (
                 <div>
-                <p>User already exists, select a new username.</p>
-                <Link to = '/sign-up' onClick = {this.retrySignUp}>Sign Up</Link>
+                    <p>
+                        User already exists, select a new username.
+                    </p>
+                    <Link to = '/sign-up' onClick = {this.retrySignUp}>Sign Up</Link>
                 </div>
                 )
         }
         if (loading) {
             return (
-                <div>
-                <p>
-                Loading...
-                </p>
-                </div>
+                 <div className = {'loaderBackground'}>
+                        <div className="loader">
+                        </div>
+                   </div>
                 )
         }
         if (redirect) {
@@ -104,29 +105,32 @@ export default class SignUp extends React.Component {
         }
         
         return (
-        <div>
-            <form name = 'signup' onSubmit = {this.handleSubmit} autoComplete = 'on'>
-            <legend>Sign Up</legend>
-            <p>
-            <label htmlFor = 'name'>Name</label>
-            <input required type = 'text' name = 'name' placeholder = 'First and Last' onChange = {this.handleChange} />
-            </p>
-            <p>
-            <label htmlFor = 'userName'>Username</label>
-            <input required type = 'text' name = 'userName'  placeholder = 'Username' onChange = {this.handleChange}  />
-            </p>
-            <p>
-            <label htmlFor = 'password'>Password</label>
-            <input required type = 'password' name = 'password'  placeholder = '******' onChange = {this.handleChange} autoComplete = 'new password'  />
-            </p>
-            <p>
-            <label htmlFor = 'passwordConfirm'>Confirm Password</label>
-            <input required type = 'password' name = 'passwordConfirm'  placeholder = '******' onChange = {this.handleChange} autoComplete = 'new password'  />
-            </p>
-            <p>
-            <input type = 'submit' />
-            </p>
-            </form>
+        <div className = {'mainBlockBackground'}>
+            <div className = {'signUpDiv'}>
+                <form name = 'signup' onSubmit = {this.handleSubmit} autoComplete = 'on'>
+                <legend>Sign Up</legend>
+                <hr />
+                <p>
+                <label htmlFor = 'name'>Name</label>
+                <input required type = 'text' name = 'name' placeholder = 'First and Last' onChange = {this.handleChange} />
+                </p>
+                <p>
+                <label htmlFor = 'userName'>Username</label>
+                <input required type = 'text' name = 'userName'  placeholder = 'Username' onChange = {this.handleChange}  />
+                </p>
+                <p>
+                <label htmlFor = 'password'>Password</label>
+                <input required type = 'password' name = 'password'  placeholder = '******' onChange = {this.handleChange} autoComplete = 'new password'  />
+                </p>
+                <p>
+                <label htmlFor = 'passwordConfirm'>Confirm Password</label>
+                <input required type = 'password' name = 'passwordConfirm'  placeholder = '******' onChange = {this.handleChange} autoComplete = 'new password'  />
+                </p>
+                <p>
+                <input type = 'submit' className = {'submitBtn'}/>
+                </p>
+                </form>
+            </div>
         </div>
         )
     }

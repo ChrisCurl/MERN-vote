@@ -19,6 +19,7 @@
     height: 100%;
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     align-items: center;
 }
 .navSpacing {
@@ -39,8 +40,12 @@
 
 }
 .mainBlock {
-    border: solid;
-    width: 40;
+    border: solid #3c763d 1px;
+    box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.43);
+    border-radius: 4px;
+    width: 400px;
+    max-height: 400px;
+    overflow: auto;
 }
 .newPoll {
     width: 200px;
@@ -51,11 +56,296 @@
     height: 400px;
 }
 
+.titleArea {
+    background-color: #f58e54db;
+    height: 100%;
+    text-align: center;
+    color:#fff4bc;
+    padding: 6px;
+    width: 100%;
+
+}
+
+.newOption {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+
+
+}
+
+.mernTitle {
+    font-family: 'Josefin Slab', serif;
+    font-size: 3em;
+}
+
+.myPollsTitleArea {
+    background-color: #337ab7;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color:#fff4bc;
+    font-family: 'Josefin Slab', serif;
+    font-size: 3em;
+    padding: 6px;
+}
+
+h1 {
+   
+}
+
+h3 {
+    font-family: 'Amatic SC', cursive;
+    margin: 0 0 10px 0;
+
+}
+
 .pollResult {
+    width: 100%;
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .pollInfo {
-    width: 35vw;
+    width: 360px;
+    padding: 8px;
+    background-color: #FFF8E1;
+    border: solid #3c763d 1px;
+    box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.43);
+    border-radius: 4px;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 1.25em;
+}
+
+.chartInfo {
+    padding: 8px;
+    background-color: #FFF8E1;
+    border: solid #3c763d 1px;
+    box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.43);
+    border-radius: 4px;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 1.25em;
+}
+
+.pollChart {
+    padding: 10px;
+    height: 100%;
+    width: 450px;
+}
+
+.text-muted {
+    color: #777;
+}
+
+.pollTitleFont {
+    font-family: 'Gloria Hallelujah', cursive;
+
+}
+
+.pollLink{
+    padding: 6px;
+    width: 100%;
+    text-decoration:none;
+    font-family:Arial;
+    display: block;
+    min-height: 45px;
+    font-size: 15px;
+    background-color:rgba(255, 255, 255, 0.8);
+    border-bottom: solid 2px #ccc;
+}
+
+.pollLink:hover {
+    background-color: rgba(237, 237, 237, 0.5);
+}
+
+.qFont {
+    color: rgb(55, 181, 71);
+}
+
+.postedByFont {
+    font-size: .8rem;
+    color: #a94442;
+}
+
+.postedByResultFont {
+    font-size: .9em;
+    color: #a94442;
+}
+
+label {
+    margin-right: 6px;
+}
+
+.signUpDiv {
+       width: 400px;
+       background-color: rgba(37, 62, 89, 0.6);
+       border: 2px solid rgb(22, 37, 54);
+       box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.43);
+       font-family: 'Josefin Slab', serif;
+       color: #fff4bc;
+       font-weight: 600;
+       padding: 10px;
+
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.submitBtn {
+    display: block;
+    background-color: rgba(37, 62, 89, 0.6);
+	margin: 0 auto;
+	padding: 0;
+	width: 125px;
+	height: 35px;
+	border: 2px solid #1ECD97;
+	border-radius: 40px;
+	color: #1ECD97;
+	letter-spacing: 1px;
+	font-size: 18px;
+}
+
+.submitBtn:hover {
+    background-color: #1ECD97;
+    color: rgba(37, 62, 89, 0.6);
+}
+
+.submitBtnPollResult {
+    display: block;
+    background-color: #FFF8E1;
+	margin: 0 auto;
+	padding: 0;
+	width: 125px;
+	height: 35px;
+	border: 2px solid #1ECD97;
+	border-radius: 40px;
+	color: #1ECD97;
+	letter-spacing: 1px;
+	font-size: 18px;
+}
+
+.submitBtnPollResult:hover {
+    background-color: #1ECD97;
+    color: #FFF8E1;
+}
+.deleteBtn {
+    display: block;
+    background-color: #FFF8E1;
+	margin: 0 auto;
+	padding: 0;
+	width: 125px;
+	height: 35px;
+	border: 2px solid #f44336;
+	border-radius: 40px;
+	color: #f44336;
+	letter-spacing: 1px;
+	font-size: 18px;
+}
+
+.deleteBtn:hover {
+    background-color:  #f44336;
+    color: #FFF8E1;
+
+}
+
+.loader {
+    margin: 25% auto;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #4CAF50;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+}
+ 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loaderBackground:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  display: block;
+  background-image: url('http://content.hampusolsson.com/downloads/oneplus/hans_plain.jpg');
+    background-size: cover;
+  height: 100%;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.loaderBackground{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  z-index: 0;
+  
+}
+
+.notFoundBackground {
+    background: linear-gradient(#e66465, #9198e5);
+    background-size: cover;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-family: 'Lobster', cursive;
+    color: white;
+    font-size: 3em;
+}
+
+.notFoundMessage {
+    margin-top: 25%;
+}
+
+img {
+    width: 100px;
+    border-radius: 18%;
+    margin-left: 35%;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.aboutMeDiv {
+    width: 400px;
+    height: 400px;
+       background-color: rgba(37, 62, 89, 0.6);
+       border: 2px solid rgb(22, 37, 54);
+       box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.43);
+       font-family: 'Josefin Slab', serif;
+       color: #fff4bc;
+       font-weight: 600;
+       padding: 0px 10px 10px 10px;
+       overflow: auto;
+}
+
+.close-thick {
+  color: #777;
+  font: 14px/100% arial, sans-serif;
+  float: right;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.aboutMeDiv a:link {
+    color: #86e02b;
+}
+
+.fab {
+    color: #d9d9d9;
+    font-size: 28px;
 }

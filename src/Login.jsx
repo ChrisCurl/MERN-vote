@@ -1,5 +1,5 @@
-const Redirect = window.ReactRouterDOM.Redirect;
-
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class Login extends React.Component {
     constructor() {
@@ -36,13 +36,15 @@ export default class Login extends React.Component {
           this.props.setInStorage('MERN_Vote', { token: json.token, name: json.name, password: json.password, username: json.username});
           this.props.setSignInInfo(
                 json.name,
-                json.userName,
+                json.username,
                 json.password,
                 json.token,
                 true
                 );
-                this.setState({isLoading: false});
-                this.setState({redirect: true});
+                setTimeout(() => {
+                    this.setState({isLoading: false});
+                     this.setState({redirect: true});
+                }, 300)
         } else {
             this.setState({isError: json.error});
             this.setState({isLoading: false});
@@ -59,7 +61,13 @@ export default class Login extends React.Component {
         const isLoading = this.state.isLoading;
         
         if (isLoading) {
-            return <div> Loading... </div>;
+            return (
+                    <div className = {'loaderBackground'}>
+                        <div className="loader">
+                        </div>
+                   </div>
+                    )
+
         } else if (isError) {
             return <div> Error Logging in, please try again. </div>
         }
@@ -68,9 +76,11 @@ export default class Login extends React.Component {
         }
         
         return (
-        <div>
+        <div className = {'mainBlockBackground'}>    
+        <div className = {'signUpDiv'}>
             <form name = 'login' onSubmit = {this.handleSubmit} autoComplete = 'on'>
             <legend>Log In</legend>
+            <hr />
             <p>
             <label htmlFor = 'userName'>Username</label>
             <input required type = 'text' name = 'userName'  placeholder = 'Username' onChange = {this.handleChange} autoComplete = 'username' />
@@ -80,9 +90,10 @@ export default class Login extends React.Component {
             <input required type = 'password' name = 'password'  placeholder = '******' onChange = {this.handleChange} autoComplete = 'current-password'  />
             </p>
             <p>
-            <input type = 'submit' />
+            <input type = 'submit' className = {'submitBtn'} />
             </p>
             </form>
+        </div>
         </div>
         )
     }

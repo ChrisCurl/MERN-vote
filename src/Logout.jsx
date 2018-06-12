@@ -1,4 +1,5 @@
-const Redirect = window.ReactRouterDOM.Redirect;
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class Logout extends React.Component {
     constructor() {
@@ -9,18 +10,20 @@ export default class Logout extends React.Component {
     }
     
     componentDidMount() {
-        this.logOut();
+           this.logOut();
     }
     
     logOut() {
-        const username = this.props.getFromStorage('MERN_Vote').username;
-        fetch(`/logout?username=${username}`)
+        const token = this.props.getFromStorage('MERN_Vote').token;
+        fetch(`/logout?token=${token}`)
         .then(res => res.json())
         .then(json => {
             if (json.success) {
                 this.props.setSignInInfo('', '', '', '', false); 
                 this.props.removeFromStorage('MERN_Vote');
-                this.setState({redirect: true});
+            setTimeout(() => {
+             this.setState({redirect: true});
+            }, 500)
             }
         })
     }
@@ -33,8 +36,9 @@ export default class Logout extends React.Component {
         
         
         return (
-        <div>
-            Logging out.
+        <div className = {'loaderBackground'}>
+            <div className = {'loader'}>
+            </div>
         </div>
         )
     }
