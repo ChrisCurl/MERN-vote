@@ -16,4 +16,4 @@ In designing MERN Vote, I have given special attention to security and I have tr
 **Special Thanks**:
 	Thanks to my mentor and friend [Daniel](http://bostwick.github.io/) for your advice and guidance on this project.
 	
-![preview](Capture.png)
+![preview](Capture.PNG)
