@@ -1,8 +1,6 @@
 
 
- ##Welcome to MERN Vote##
- 
- ##sometext
+ ### Welcome to MERN Vote
 
 **Basic Outline**:
 Hello and welcome to MERN Vote. This app was created as a part of the Back End Development Certificate for freecodecamp.org. As the name implies, this app was written using MongoDB, Express, React and Node. Functionally this app is a working example of CRUD functionality. 
