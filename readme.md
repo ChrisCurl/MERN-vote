@@ -1,5 +1,5 @@
 
-[Live Link](https://voting-app-borderwave2.c9users.io/)
+[Live Link](https://mern-vote.herokuapp.com/)
 
  ### Welcome to MERN Vote
 
